@@ -141,13 +141,74 @@
         <td>{$pasien.alamat}, {$pasien.nm_kel}, {$pasien.nm_kec}, {$pasien.nm_kab}, {$pasien.nm_prop}</td>
       </tr>
       <tr>
-        <td colspan="3">
-          <br>
-          Berdasarkan hasil pemeriksaan klinis, yang bersangkutan dalam keadaan
-          <input type="text" class="form-control" name="keadaan" id="keadaan" value="{?=isset_or($surat.keadaan)?}" style="width: 200px;border: 0;padding:5px;margin: 2px 0;background-color:#eee;">
-          dengan diagnosa penyakit <input type="text" class="form-control" name="diagnosa" id="diagnosa" value="{?=isset_or($surat.diagnosa)?}" style="width: 300px;border: 0;padding:5px;margin: 2px 0;background-color:#eee;">, dan perlu istirahat selama <input type="text" class="form-control" name="lama_angka" id="lama_angka" value="{?=isset_or($surat.lama_angka)?}" style="width: 50px;border: 0;padding:5px;margin: 2px 0;background-color:#eee;"> ( <input type="text" class="form-control" name="lama_huruf" id="lama_huruf" value="{?=isset_or($surat.lama_huruf)?}" style="width: 200px;border: 0;padding:5px;margin: 2px 0;background-color:#eee;"> ) hari, terhitung mulai tanggal <input type="date" class="form-control" name="tanggal_mulai" id="tanggal_mulai" value="{?=isset_or($surat.tanggal_mulai)?}" style="width: 200px;border: 0;padding:5px;margin: 2px 0;background-color:#eee;"> sampai dengan tanggal <input type="date" class="form-control" name="tanggal_selesai" id="tanggal_selesai" value="{?=isset_or($surat.tanggal_selesai)?}" style="width: 200px;border: 0;padding:5px;margin: 2px 0;background-color:#eee;">.
-        </td>
-      </tr>
+      <td colspan="3">
+        <br>
+        Berdasarkan hasil pemeriksaan klinis, yang bersangkutan dalam keadaan
+        <input type="text" class="form-control auto-resize" name="keadaan" id="keadaan" value="{?=isset_or($surat.keadaan)?}">
+        dengan diagnosa penyakit 
+        <input type="text" class="form-control auto-resize" name="diagnosa" id="diagnosa" value="{?=isset_or($surat.diagnosa)?}">
+        , dan perlu istirahat selama 
+        <input type="text" class="form-control auto-resize small-input" name="lama_angka" id="lama_angka" value="{?=isset_or($surat.lama_angka)?}"> 
+        ( <input type="text" class="form-control auto-resize small-input" name="lama_huruf" id="lama_huruf" value="{?=isset_or($surat.lama_huruf)?}"> ) hari, terhitung mulai tanggal 
+        <input type="date" class="form-control auto-resize date-input" name="tanggal_mulai" id="tanggal_mulai" value="{?=isset_or($surat.tanggal_mulai)?}">
+        sampai dengan tanggal 
+        <input type="date" class="form-control auto-resize date-input" name="tanggal_selesai" id="tanggal_selesai" value="{?=isset_or($surat.tanggal_selesai)?}">
+      </td>
+    </tr>
+    
+    <style>
+      .auto-resize {
+        border: 0;
+        padding: 5px;
+        margin: 2px 0;
+        background-color: #eee;
+        outline: none;
+        width: auto;
+        min-width: 50px;
+      }
+    
+      .small-input {
+        min-width: 30px;
+        padding: 2px 5px;
+      }
+    
+      .date-input {
+        min-width: 120px; /* Untuk tampilan tanggal */
+        padding: 2px 5px;
+      }
+    
+      .hidden-span {
+        position: absolute;
+        visibility: hidden;
+        white-space: pre;
+        font-size: 16px;
+        font-family: inherit;
+        padding: 5px;
+      }
+    </style>
+    
+    <script>
+      const resizeInput = (input) => {
+        const span = document.createElement('span');
+        span.className = 'hidden-span';
+        document.body.appendChild(span);
+    
+        const updateSize = () => {
+          let value = input.value || input.placeholder || ' ';
+          if (input.type === 'date') {
+            value = input.value || 'YYYY-MM-DD'; // Format default tanggal
+          }
+          span.textContent = value;
+          input.style.width = `${span.offsetWidth}px`;
+        };
+    
+        input.addEventListener('input', updateSize);
+        input.addEventListener('change', updateSize);
+        updateSize(); // Panggil saat halaman dimuat
+      };
+    
+      document.querySelectorAll('.auto-resize').forEach(resizeInput);
+    </script>
       <tr>
         <td colspan="3"><br>Demikianlah surat keterangan ini dibuat dengan sebenarnya untuk digunakan sebagaimana mestinya.</td>
       </tr>
