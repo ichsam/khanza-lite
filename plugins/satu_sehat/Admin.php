@@ -2913,13 +2913,26 @@ class Admin extends AdminModule
 
   public function getMedication(string $tipe = 'request', string $no_rawat = '')
   {
-    // Zona waktu
-    $zonawaktu = match ($this->settings->get('satu_sehat.zonawaktu')) {
-      'WITA' => '+08:00',
-      'WIT'  => '+09:00',
-      default => '+07:00',
-    };
+    // // Zona waktu
+    // $zonawaktu = match ($this->settings->get('satu_sehat.zonawaktu')) {
+    //   'WITA' => '+08:00',
+    //   'WIT'  => '+09:00',
+    //   default => '+07:00',
+    // };
 
+    $zona = $this->settings->get('satu_sehat.zonawaktu');
+    switch ($zona) {
+        case 'WITA':
+            $zonawaktu = '+08:00';
+            break;
+        case 'WIT':
+            $zonawaktu = '+09:00';
+            break;
+        default:
+            $zonawaktu = '+07:00';
+            break;
+    }
+    
     $kode_brng = $no_rawat;
     $no_rawat = revertNoRawat($no_rawat);
 
